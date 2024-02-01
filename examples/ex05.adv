@@ -1,0 +1,74 @@
+// This example aims to test the semantic analyzer
+
+alphabet {'a', 'b'}
+// alphabet {'a', 'b', 'c'} will give duplicate alphabet error
+
+// complete NFA a2 <<< >>> will give error because NFA is cannot be complete
+
+
+
+DFA a5 <<<
+
+  state A, B;
+  // state A;  will give duplicate state error
+
+
+  // C [initial = true]; will give state C does not exist error
+
+  // a5 [initial = true]; will give a1 is not a state error
+
+  // A [color = gray] will give invalid property error
+
+  // A [accepting = gray]; will give wrong value type for accepting, in this case must be boolean
+
+
+  B [initial = true, accepting = true];
+
+  transition
+    // C -> 'a' -> B, // will give state C does not exist
+    // a1 -> 'a' -> B, //will give a1 is not a state
+    // A -> 'c' -> B, //will give alphabet letter 'c' does not exist
+    A -> 'b' -> B,
+    // B -> 'a' -> D, will give State D does not exist
+    A -> 'a' -> A,
+    B -> 'a', 'b' -> A;
+    
+    // A -> 'a' -> B; // will give duplicated transition error
+>>>
+
+// NFA a1 <<< >>> will give duplicated Variable error
+
+view v5 of a5 <<< 
+
+  place A at (2,1), B at (5,1);
+  //place A at (a,b);
+  // place C at (2,1); will give variable C does not exist error 
+  // place A at A; will give invalid place error
+  // place <A,B>#label [align = below] at pm; will give invalid atID error
+  // place <A,F>#label [align = below] at (2,1); will give invalid atID error 
+  point p1, p2;
+  // point p1; already exists error
+  // a5 = p1; will give id is not a coordinate error
+
+  //t5 = p1; will give id does not exist error
+
+  p1 = (B) + (235:0.7);
+  // p1 = (B) + (235:0.7); // will give duplicate point error
+  // p2 = (A) + (45:0.7);
+
+  // p1 = a5; will give invalid point for view point error
+
+
+>>>
+
+
+// view v5 of a5 <<< >>> will give Variable already exists error 
+
+// view v5 of a2 <<< >>> will give Variable does not exist error
+
+// view v5 of A <<< >>> will give Variable is not an automata error
+
+
+
+
+
